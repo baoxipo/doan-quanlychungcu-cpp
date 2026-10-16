@@ -15,6 +15,12 @@
 
 ---
 
+## Demo 
+
+![demo đồ án](docs/demo.gif)
+
+---
+
 ## Tìm hiểu về nghiệp vụ 
 
 - Chương trình dùng để quản lý căn hộ, cư dân và hóa đơn trong chung cư
