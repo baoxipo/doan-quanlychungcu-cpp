@@ -51,6 +51,9 @@ void XuatMotCanHo(CanHoPtr canho, bool kemchuho);
 void XuatDanhSachCanHo(CanHoPtr& danhsach, bool kemchuho);
 void XuatChiTietDanhSachCanHo(CanHoPtr& danhsach, bool kemchuho);
 
+// Trả về danh sách cư dân 
+CuDanPtr TraVeDanhSachCuDan(CanHoPtr& danhsach);
+
 void GiaiPhongDanhSachCanHo(CanHoPtr& danhsach);
 
 #endif

@@ -1,51 +1,38 @@
 #include "lib/hamphu.h"
 
-int NhapSo(string loinhac){
-    while(true){
+int NhapSo(string loinhac, int solanthu){
+    for(int lanthu = 1; lanthu <= solanthu; lanthu++){
         cout << loinhac;
         string chuoi;
         getline(cin, chuoi);
-        int so = ChuyenThanhSo(chuoi);
-        bool chuoiso0 = !chuoi.empty();
-        size_t batdau = 0;
-        if(!chuoi.empty() && (chuoi[0] == '+' || chuoi[0] == '-')){
-            batdau = 1;
-        }
-        if(batdau == chuoi.size()){
-            chuoiso0 = false;
-        }
-        for(size_t i = batdau; i < chuoi.size(); i++){
-            if(chuoi[i] < '0' || chuoi[i] > '9'){
-                chuoiso0 = false;
-                break;
-            }
-            if(chuoi[i] != '0'){
-                chuoiso0 = false;
-            }
-        }
-        if(so != 0 || chuoiso0){
+        int so;
+        if(ChuyenThanhSo(chuoi, so)){
             return so;
         }
-        cout << "(!) Vui long nhap so nguyen hop le" << endl;
+        cout << "(!) Vui long nhap so nguyen hop le (" 
+             << lanthu << "/" << solanthu << ")" << endl;
     }
+    cout << "(!) Da nhap sai " << solanthu << " lan, quay lai menu" << endl;
+    return -1;
 }
 
-string NhapChuoi(string loinhac){
-    while(true){
+string NhapChuoi(string loinhac, int solanthu){
+    for(int lanthu = 1; lanthu <= solanthu; lanthu++){
         cout << loinhac;
         string s;
         getline(cin, s);
-        size_t batdau = s.find_first_not_of(" \t\r\n");
-        size_t ketthuc = s.find_last_not_of(" \t\r\n");
-        if(batdau != string::npos){
-            return s.substr(batdau, ketthuc - batdau + 1);
+        if(!s.empty()){
+            return s;
         }
-        cout << "(!) Khong duoc de trong" << endl;
+        cout << "\t(!) Khong duoc de trong ("
+             << lanthu << "/" << solanthu << ")" << endl;
     }
+    cout << "(!) Da nhap sai 3 lan, quay lai menu" << endl;
+    return "";
 }
 
 void DungChuongTrinh(){
-    cout << "Nhan phim bat ky de tiep tuc ...";
+    cout << "\nNhan phim bat ky de tiep tuc ...";
     getch();
 }
 
@@ -156,27 +143,28 @@ int LayNamHienTai() {
     return localtime(&hientai)->tm_year + 1900;
 }
 
-int ChuyenThanhSo(string chuoi){
+bool ChuyenThanhSo(string chuoi, int& so){
     try {
         size_t pos;
         int n = stoi(chuoi, &pos);
         if(pos != chuoi.size() || chuoi.empty()){
-            return 0;
+            return false;
         }
         for(size_t i = 0; i < chuoi.size(); i++){
             if(i == 0 && (chuoi[i] == '-' || chuoi[i] == '+')){
                 if(chuoi.size() == 1){
-                    return 0;
+                    return false;
                 }
                 continue;
             }
             if(chuoi[i] < '0' || chuoi[i] > '9'){
-                return 0;
+                return false;
             }
         }
-        return n;
+        so = n;
+        return true;
     } catch(...){
-        return 0;
+        return false;
     }
 }
 

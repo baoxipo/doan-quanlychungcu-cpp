@@ -1,5 +1,22 @@
 #include "lib/saoluuvanapdulieu.h"
 
+bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho){
+    if(!exists("data")){
+        KhoiTaoDuLieuMau(danhsachcanho);
+        // Gia lap cac can dang thue da o 1 nam va tao hoa don 12 thang gan nhat
+        KhoiTaoDanhSachHoaDonChoPhongDangThue(danhsachcanho);
+    } else if(!NapDuLieu(danhsachcanho)){
+        cout << "(!) Thu muc data ton tai nhung khong doc duoc du lieu" << endl;
+        return false;
+    }
+    if(!LuuDuLieu(danhsachcanho)){
+        cout << "(!) Khong the luu du lieu trong thu muc data" << endl;
+        GiaiPhongDanhSachCanHo(danhsachcanho);
+        return false;
+    }
+    return true;
+}
+
 bool LuuDuLieu(CanHoPtr& danhsachcanho){
     set<string> danhsachtencanho;
     CanHoPtr p = danhsachcanho;
@@ -15,9 +32,9 @@ bool LuuDuLieu(CanHoPtr& danhsachcanho){
             create_directories(thumuccanho);
             danhsachtencanho.insert(p->tencanho);
             ofstream filecanho(thumuccanho + "/canho.txt");
-            filecanho << quoted(p->tencanho) 
-                      << " " << p->tang 
-                      << " " << quoted(p->trangthai) 
+            filecanho << quoted(p->tencanho)
+                      << " " << p->tang
+                      << " " << quoted(p->trangthai)
                       << endl;
             if(!filecanho){
                 return false;
@@ -25,10 +42,10 @@ bool LuuDuLieu(CanHoPtr& danhsachcanho){
             ofstream filecudan(thumuccanho + "/cudan.txt");
             CuDanPtr cudan = p->danhsachcudan;
             while(cudan != NULL){
-                filecudan << quoted(cudan->hoten) 
-                          << " " << quoted(cudan->cccd) 
+                filecudan << quoted(cudan->hoten)
+                          << " " << quoted(cudan->cccd)
                           << " " << quoted(cudan->sodienthoai)
-                          << " " << cudan->lachuho 
+                          << " " << cudan->lachuho
                           << endl;
                 cudan = cudan->link;
             }

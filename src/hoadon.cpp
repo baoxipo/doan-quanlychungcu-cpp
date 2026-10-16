@@ -133,13 +133,13 @@ HoaDonPtr TimHoaDon(HoaDonPtr& danhsachhoadon, int thang, int nam){
 
 void XuatMotHoaDon(HoaDonPtr hoadon){
     cout << "   Hoa don thang " << hoadon->thang << " nam " << hoadon->nam << endl;
-    cout << "     - Quan ly : " << hoadon->tienquanly << endl;
+    cout << "     - Quan ly : " << hoadon->tienquanly << " (VND)"<< endl;
     cout << "     - Dien    : " << hoadon->sokwhdien << " kWh -> " 
-                                << hoadon->tiendien << "VND" << endl;
+                                << hoadon->tiendien << " (VND)" << endl;
     cout << "     - Nuoc    : " << hoadon->somkhoinuoc << " m³ -> " 
-                                << hoadon->tiennuoc << "VND" << endl;
-    cout << "     - Gui xe  : " << hoadon->tienguixe << endl;
-    cout << "   TONG : " << fixed << setprecision(0) << hoadon->tongtien << endl;
+                                << hoadon->tiennuoc << " (VND)" << endl;
+    cout << "     - Gui xe  : " << hoadon->tienguixe << " (VND)" << endl;
+    cout << "   TONG : " << fixed << setprecision(0) << hoadon->tongtien << " (VND)" << endl;
     if(hoadon->dadongtien){
         cout << "     -> DA DONG luc " << hoadon->ngaydongtien << endl;
     } else {

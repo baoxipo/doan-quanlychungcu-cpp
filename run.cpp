@@ -29,6 +29,7 @@ int main(){
     string lenhthucthi = thumucchuafilethucthi
                        + "\\"
                        + tenfilethucthi;
+    cout << "Đang biên dịch, vui lòng chờ...";
     system(lenhbiendich.c_str());
     system(lenhthucthi.c_str());
     return 0;
