@@ -18,42 +18,51 @@ struct CanHo {
 
 typedef CanHo* CanHoPtr;
 
-bool KiemTraRongDanhSachCanHo(CanHoPtr& danhsach);
+bool KiemTraRongDanhSachCanHo(CanHoPtr& danhsachcanho);
 // khởi tạo danhsachcanho = NULL lúc đầu 
-void KhoiTaoDanhSachCanHo(CanHoPtr& danhsach);
+void KhoiTaoDanhSachCanHo(CanHoPtr& danhsachcanho);
 CanHoPtr KhoiTaoCanHo(CanHo& canhomoi);
 CanHo NhapCanHo();
-void ThemCuoiDanhSachCanHo(CanHoPtr& danhsach, CanHoPtr canho);
-CanHoPtr TimTheoTenCanHo(CanHoPtr& danhsach, string tencanho);
-bool XoaCanHo(CanHoPtr& danhsach, string tencanho);
-bool SuaCanHo(CanHoPtr& danhsach, string tencanho);
+void ThemCuoiDanhSachCanHo(CanHoPtr& danhsachcanho, CanHoPtr canhomoi);
+CanHoPtr TimTheoTenCanHo(CanHoPtr& danhsachcanho, string tencanho);
+bool XoaCanHo(CanHoPtr& danhsachcanho, string tencanho);
+bool SuaCanHo(CanHoPtr& danhsachcanho, string tencanho);
 
-// Thêm cư dân và chuyển cư dân 
-void ThemCuDanVaoCanHo(CanHoPtr canho, int soluong);
+// Thêm cư dân 
+void ThemCuDanVaoCanHo(CanHoPtr danhsachcanho, CanHoPtr canho, int soluong);
+
+// Lấy tên chủ hộ
+CuDanPtr LayChuHo(CuDanPtr danhsachcudan);
 
 // Chuyển cư dân sang căn hộ khác 
-bool ChuyenCuDan(CanHoPtr& danhsach, string tencanhocu, string tencanhomoi);
+bool ChuyenCuDan(CanHoPtr& danhsachcanho, string tencanhocu, string tencanhomoi);
 
 // Tìm kiếm 
-CanHoPtr TimTheoTenChuHo(CanHoPtr& danhsach, string tenchuho);
-CanHoPtr TimTheoCCCDChuHo(CanHoPtr& danhsach, string cccd);
+CanHoPtr TimTheoTenChuHo(CanHoPtr& danhsachcanho, string tenchuho);
+CanHoPtr TimTheoCCCDChuHo(CanHoPtr& danhsachcanho, string cccd);
 
 // Lọc 
-void LocTheoTang(CanHoPtr& danhsach, int tang);
-void LocTheoTrangThai(CanHoPtr& danhsach, string trangthai);
+void LocTheoTang(CanHoPtr& danhsachcanho, int tang);
+void LocTheoTrangThai(CanHoPtr& danhsachcanho, string trangthai);
 
 // Sắp xếp theo tên căn hộ  
-void SapXepTenCanHoXuoi(CanHoPtr& danhsach);
-void SapXepTenCanHoNguoc(CanHoPtr& danhsach);
+void SapXepTenCanHoXuoi(CanHoPtr& danhsachcanho);
+void SapXepTenCanHoNguoc(CanHoPtr& danhsachcanho);
 
 // In ra màn hình 
 void XuatMotCanHo(CanHoPtr canho, bool kemchuho);
-void XuatDanhSachCanHo(CanHoPtr& danhsach, bool kemchuho);
-void XuatChiTietDanhSachCanHo(CanHoPtr& danhsach, bool kemchuho);
+void XuatDanhSachCanHo(CanHoPtr danhsachcanho, bool kemchuho);
+void XuatChiTietMotCanHo(CanHoPtr canho, bool kemchuho);
+void XuatChiTietDanhSachCanHo(CanHoPtr danhsachcanho, bool kemchuho);
 
 // Trả về danh sách cư dân 
-CuDanPtr TraVeDanhSachCuDan(CanHoPtr& danhsach);
+CuDanPtr TraVeDanhSachCuDan(CanHoPtr& canho);
 
-void GiaiPhongDanhSachCanHo(CanHoPtr& danhsach);
+
+// Kiểm tra trùng cccd của tất cả cư dân 
+bool KiemTraTrungTatCaCCCD(CanHoPtr danhsachcanho, string cccd);
+
+// Kiểm tra trùng sdt của tất cả cư dân 
+bool KiemTraTrungTatCaSoDienThoai(CanHoPtr danhsachcanho, string sodienthoai);
 
 #endif

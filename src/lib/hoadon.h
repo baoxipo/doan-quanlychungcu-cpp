@@ -27,17 +27,16 @@ struct HoaDon {
 
 typedef HoaDon* HoaDonPtr;
 
-bool KiemTraRongDanhSachHoaDon(HoaDonPtr& danhsach);
-void KhoiTaoDanhSachHoaDon(HoaDonPtr& danhsach);
+bool KiemTraRongDanhSachHoaDon(HoaDonPtr& danhsachhoadon);
+void KhoiTaoDanhSachHoaDon(HoaDonPtr& danhsachhoadon);
 HoaDonPtr KhoiTaoHoaDon(HoaDon& hoadonmoi);
 float TinhTienDien(int sokwhdien);
 float TinhTienNuoc(int somkhoinuoc);
 HoaDon TaoHoaDonNgauNhien(int thang, int nam);
 void KhoiTaoDanhSachHoaDonNgauNhien(HoaDonPtr& danhsachhoadon);
-void ThemCuoiDanhSachHoaDon(HoaDonPtr& danhsach, HoaDonPtr hoadonmoi);
-HoaDonPtr TimHoaDon(HoaDonPtr& danhsach, int thang, int nam);
+void ThemCuoiDanhSachHoaDon(HoaDonPtr& danhsachhoadon, HoaDonPtr hoadonmoi);
+HoaDonPtr TimHoaDon(HoaDonPtr& danhsachhoadon, int thang, int nam);
 void XuatMotHoaDon(HoaDonPtr hoadon);
-void XuatDanhSachHoaDon(HoaDonPtr& danhsach);
-void GiaiPhongDanhSachHoaDon(HoaDonPtr& danhsach);
+void XuatDanhSachHoaDon(HoaDonPtr danhsachhoadon);
 
 #endif

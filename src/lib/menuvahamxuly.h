@@ -8,8 +8,9 @@
 #include "cudan.h"
 #include "hamphu.h"
 
+void LuuYChonDuLieuMau();
 void Banner();
-void MenuChinh();
+void MenuQuanLyChungCu();
 void BannerDoAnTinHoc();
 void BannerTamBiet();
 void MoTaNghiepVu();

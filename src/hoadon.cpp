@@ -89,7 +89,8 @@ HoaDon TaoHoaDonNgauNhien(int thang, int nam){
     return hoadon;
 }
 
-// Tao hoa don 12 thang gan nhat cho 1 can (tu thang hien tai + 1 nam truoc den thang hien tai nam nay)
+// Tao hoa don 12 thang gan nhat cho 1 can 
+// tu thang hien tai + 1 nam truoc den thang hien tai nam nay
 void KhoiTaoDanhSachHoaDonNgauNhien(HoaDonPtr& danhsachhoadon){
     int thanghientai = LayThangHienTai();
     int namnay = LayNamHienTai();
@@ -147,7 +148,7 @@ void XuatMotHoaDon(HoaDonPtr hoadon){
     }
 }
 
-void XuatDanhSachHoaDon(HoaDonPtr& danhsachhoadon){
+void XuatDanhSachHoaDon(HoaDonPtr danhsachhoadon){
     if(KiemTraRongDanhSachHoaDon(danhsachhoadon)){
         cout << "   (chua co hoa don)" << endl;
         return;
@@ -156,13 +157,5 @@ void XuatDanhSachHoaDon(HoaDonPtr& danhsachhoadon){
     while(p != NULL){
         XuatMotHoaDon(p);
         p = p->link;
-    }
-}
-
-void GiaiPhongDanhSachHoaDon(HoaDonPtr& danhsachhoadon){
-    while(danhsachhoadon != NULL){
-        HoaDonPtr tam = danhsachhoadon;
-        danhsachhoadon = danhsachhoadon->link;
-        delete tam;
     }
 }

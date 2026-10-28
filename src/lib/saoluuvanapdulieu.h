@@ -8,7 +8,8 @@
 
 const string THUMUCGOC = "data";
 
-bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho);
+void TaoThuMuc(string tenthumuc);
+bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho, string luachonmauhaykhong);
 bool LuuDuLieu(CanHoPtr& danhsachcanho);
 bool NapDuLieu(CanHoPtr& danhsachcanho);
 

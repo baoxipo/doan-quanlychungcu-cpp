@@ -58,6 +58,13 @@ MO TA NGHIEP VU
     cout << nghiepvu << endl;
 }
 
+void LuuYChonDuLieuMau(){
+    cout << "[?] Ban co muon tao du lieu mau khong ?" << endl;
+    cout << "[!] Luu y:" << endl;
+    cout << "\t- Neu da co du lieu thi khong nen tao du lieu mau" << endl;
+    cout << "\t- Neu chua co du lieu thi hay nen tao du lieu mau" << endl;
+}
+
 void Banner(){
     string banner = R"(┌──────────────────────────────┐
 │      DO AN TIN HOC HK1       │
@@ -69,7 +76,7 @@ void Banner(){
     cout << banner << endl;
 }
 
-void MenuChinh(){
+void MenuQuanLyChungCu(){
     Banner();
     cout << "MENU QUAN LY CHUNG CU " << "\n\n";
     cout << "[01] Quan ly can ho" << endl;
@@ -164,7 +171,7 @@ void XuLyMenu3(CanHoPtr& danhsachcanho){
     if(soluong < 1){
         return;
     }
-    ThemCuDanVaoCanHo(canho, soluong);
+    ThemCuDanVaoCanHo(danhsachcanho, canho, soluong);
 }
 
 void XuLyMenu4(CanHoPtr& danhsachcanho){

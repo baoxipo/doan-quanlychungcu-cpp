@@ -1,84 +1,112 @@
 #include "lib/saoluuvanapdulieu.h"
 
-bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho){
-    if(!exists("data")){
+void TaoThuMuc(string tenthumuc){
+    create_directories(tenthumuc);
+}
+
+bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho, string luachonmauhaykhong){
+    if(luachonmauhaykhong == "y"){
         KhoiTaoDuLieuMau(danhsachcanho);
-        // Gia lap cac can dang thue da o 1 nam va tao hoa don 12 thang gan nhat
         KhoiTaoDanhSachHoaDonChoPhongDangThue(danhsachcanho);
-    } else if(!NapDuLieu(danhsachcanho)){
-        cout << "(!) Thu muc data ton tai nhung khong doc duoc du lieu" << endl;
-        return false;
+        if(!LuuDuLieu(danhsachcanho)){
+            cout << "(!) Khong the luu du lieu trong thu muc data" << endl;
+            return false;
+        }
+        return true;
     }
-    if(!LuuDuLieu(danhsachcanho)){
-        cout << "(!) Khong the luu du lieu trong thu muc data" << endl;
-        GiaiPhongDanhSachCanHo(danhsachcanho);
-        return false;
+    if(exists(THUMUCGOC)){
+        if(!NapDuLieu(danhsachcanho)){
+            cout << "(!) Khong nap duoc du lieu trong thu muc data" << endl;
+            return false;
+        }
+        return true;
     }
+    TaoThuMuc(THUMUCGOC);
     return true;
 }
 
 bool LuuDuLieu(CanHoPtr& danhsachcanho){
-    set<string> danhsachtencanho;
-    CanHoPtr p = danhsachcanho;
+    CanHoPtr canho = danhsachcanho;
+
     try {
-        create_directories(THUMUCGOC);
+        TaoThuMuc(THUMUCGOC);
+
         ofstream filekhoitao(THUMUCGOC + "/dakhoitao.txt");
         filekhoitao << "Du lieu da duoc khoi tao" << endl;
         if(!filekhoitao){
             return false;
         }
-        while(p != NULL){
-            string thumuccanho = THUMUCGOC + "/" + p->tencanho;
-            create_directories(thumuccanho);
-            danhsachtencanho.insert(p->tencanho);
+
+        while(canho != NULL){
+            string thumuccanho = THUMUCGOC + "/" + canho->tencanho;
+            TaoThuMuc(thumuccanho);
+
+            // Luu moi chuoi tren mot dong de co the doc bang getline
             ofstream filecanho(thumuccanho + "/canho.txt");
-            filecanho << quoted(p->tencanho)
-                      << " " << p->tang
-                      << " " << quoted(p->trangthai)
-                      << endl;
+            filecanho << canho->tencanho << endl;
+            filecanho << canho->tang << endl;
+            filecanho << canho->trangthai << endl;
             if(!filecanho){
                 return false;
             }
+
             ofstream filecudan(thumuccanho + "/cudan.txt");
-            CuDanPtr cudan = p->danhsachcudan;
+            CuDanPtr cudan = canho->danhsachcudan;
             while(cudan != NULL){
-                filecudan << quoted(cudan->hoten)
-                          << " " << quoted(cudan->cccd)
-                          << " " << quoted(cudan->sodienthoai)
-                          << " " << cudan->lachuho
-                          << endl;
+                filecudan << cudan->hoten << endl;
+                filecudan << cudan->cccd << endl;
+                filecudan << cudan->sodienthoai << endl;
+                filecudan << cudan->lachuho << endl;
                 cudan = cudan->link;
             }
             if(!filecudan){
                 return false;
             }
+
             ofstream filehoadon(thumuccanho + "/hoadon.txt");
             filehoadon << fixed << setprecision(0);
-            HoaDonPtr hoadon = p->danhsachhoadon;
+            HoaDonPtr hoadon = canho->danhsachhoadon;
             while(hoadon != NULL){
-                filehoadon << hoadon->thang << " " << hoadon->nam << " "
-                           << hoadon->sokwhdien << " " << hoadon->somkhoinuoc << " "
-                           << hoadon->tienquanly << " " << hoadon->tiendien << " "
-                           << hoadon->tiennuoc << " " << hoadon->tienguixe << " "
-                           << hoadon->tongtien << " " << hoadon->dadongtien << " "
-                           << quoted(hoadon->ngaydongtien) << endl;
+                filehoadon << hoadon->thang << endl;
+                filehoadon << hoadon->nam << endl;
+                filehoadon << hoadon->sokwhdien << endl;
+                filehoadon << hoadon->somkhoinuoc << endl;
+                filehoadon << hoadon->tienquanly << endl;
+                filehoadon << hoadon->tiendien << endl;
+                filehoadon << hoadon->tiennuoc << endl;
+                filehoadon << hoadon->tienguixe << endl;
+                filehoadon << hoadon->tongtien << endl;
+                filehoadon << hoadon->dadongtien << endl;
+                filehoadon << hoadon->ngaydongtien << endl;
                 hoadon = hoadon->link;
             }
             if(!filehoadon){
                 return false;
             }
-            p = p->link;
+
+            canho = canho->link;
         }
 
-        for(auto& muc : directory_iterator(THUMUCGOC)){
-            if(muc.is_directory() && exists(muc.path().string() + "/canho.txt")
-               && danhsachtencanho.count(muc.path().filename().string()) == 0){
-                remove_all(muc.path());
+        // Xoa thu muc can ho da bi xoa khoi danh sach
+        directory_iterator muc(THUMUCGOC);
+        directory_iterator cuoi;
+        while(muc != cuoi){
+            if(muc->is_directory() && exists(muc->path().string() + "/canho.txt")){
+                string tenthumuc = muc->path().filename().string();
+                CanHoPtr canho = danhsachcanho;
+                while(canho != NULL && canho->tencanho != tenthumuc){
+                    canho = canho->link;
+                }
+                if(canho == NULL){
+                    remove_all(muc->path());
+                }
             }
+            ++muc;
         }
     } catch(filesystem_error&){
         return false;
     }
+
     return true;
 }
 
@@ -88,77 +116,72 @@ bool NapDuLieu(CanHoPtr& danhsachcanho){
     }
 
     CanHoPtr danhsachmoi = NULL;
-    bool codulieu = false;
     try {
-        for(const auto& muc : directory_iterator(THUMUCGOC)){
-            if(!muc.is_directory()){
-                continue;
-            }
-            string thumuccanho = muc.path().string();
-            ifstream filecanho(thumuccanho + "/canho.txt");
-            string tencanho, trangthai;
-            int tang;
-            if(!(filecanho >> quoted(tencanho) >> tang >> quoted(trangthai))){
-                continue;
-            }
+        directory_iterator muc(THUMUCGOC);
+        directory_iterator cuoi;
+        while(muc != cuoi){
+            if(muc->is_directory()){
+                string thumuccanho = muc->path().string();
+                ifstream filecanho(thumuccanho + "/canho.txt");
+                string tencanho;
+                string trangthai;
+                int tang;
+                if(getline(filecanho, tencanho) && filecanho >> tang){
+                    filecanho.ignore();
+                    getline(filecanho, trangthai);
+                    CanHo canhomoi;
+                    canhomoi.tencanho = tencanho;
+                    canhomoi.tang = tang;
+                    canhomoi.trangthai = trangthai;
+                    canhomoi.danhsachcudan = NULL;
+                    canhomoi.danhsachhoadon = NULL;
+                    canhomoi.link = NULL;
+                    CanHoPtr canho = KhoiTaoCanHo(canhomoi);
+                    ThemCuoiDanhSachCanHo(danhsachmoi, canho);
+                    ifstream filecudan(thumuccanho + "/cudan.txt");
+                    while(filecudan){
+                        CuDan cudanmoi;
+                        if(!getline(filecudan, cudanmoi.hoten)) break;
+                        if(!getline(filecudan, cudanmoi.cccd)) break;
+                        if(!getline(filecudan, cudanmoi.sodienthoai)) break;
+                        if(!(filecudan >> cudanmoi.lachuho)) break;
+                        filecudan.ignore();
+                        cudanmoi.link = NULL;
+                        ThemCuoiDanhSachCuDan(canho->danhsachcudan, KhoiTaoCuDan(cudanmoi));
+                    }
 
-            CanHo canhomoi;
-            canhomoi.tencanho = tencanho;
-            canhomoi.tang = tang;
-            canhomoi.trangthai = trangthai;
-            canhomoi.danhsachcudan = NULL;
-            canhomoi.danhsachhoadon = NULL;
-            canhomoi.link = NULL;
-            CanHoPtr canho = KhoiTaoCanHo(canhomoi);
-            canho->trangthai = trangthai;
-            ThemCuoiDanhSachCanHo(danhsachmoi, canho);
-            codulieu = true;
-
-            ifstream filecudan(thumuccanho + "/cudan.txt");
-            while(filecudan){
-                CuDan cudanmoi;
-                if(!(filecudan >> quoted(cudanmoi.hoten) >> quoted(cudanmoi.cccd)
-                     >> quoted(cudanmoi.sodienthoai) >> cudanmoi.lachuho)){
-                    break;
+                    ifstream filehoadon(thumuccanho + "/hoadon.txt");
+                    while(filehoadon){
+                        HoaDon hoadonmoi;
+                        if(!(filehoadon >> hoadonmoi.thang)) break;
+                        if(!(filehoadon >> hoadonmoi.nam)) break;
+                        if(!(filehoadon >> hoadonmoi.sokwhdien)) break;
+                        if(!(filehoadon >> hoadonmoi.somkhoinuoc)) break;
+                        if(!(filehoadon >> hoadonmoi.tienquanly)) break;
+                        if(!(filehoadon >> hoadonmoi.tiendien)) break;
+                        if(!(filehoadon >> hoadonmoi.tiennuoc)) break;
+                        if(!(filehoadon >> hoadonmoi.tienguixe)) break;
+                        if(!(filehoadon >> hoadonmoi.tongtien)) break;
+                        if(!(filehoadon >> hoadonmoi.dadongtien)) break;
+                        filehoadon.ignore();
+                        if(!getline(filehoadon, hoadonmoi.ngaydongtien)) break;
+                        hoadonmoi.link = NULL;
+                        ThemCuoiDanhSachHoaDon(canho->danhsachhoadon, KhoiTaoHoaDon(hoadonmoi));
+                        HoaDonPtr hoadon = canho->danhsachhoadon;
+                        while(hoadon->link != NULL){
+                            hoadon = hoadon->link;
+                        }
+                        hoadon->dadongtien = hoadonmoi.dadongtien;
+                        hoadon->ngaydongtien = hoadonmoi.ngaydongtien;
+                    }
                 }
-                cudanmoi.link = NULL;
-                ThemCuoiDanhSachCuDan(canho->danhsachcudan, KhoiTaoCuDan(cudanmoi));
             }
-
-            ifstream filehoadon(thumuccanho + "/hoadon.txt");
-            while(filehoadon){
-                HoaDon hoadonmoi;
-                if(!(filehoadon >> hoadonmoi.thang >> hoadonmoi.nam
-                     >> hoadonmoi.sokwhdien >> hoadonmoi.somkhoinuoc
-                     >> hoadonmoi.tienquanly >> hoadonmoi.tiendien >> hoadonmoi.tiennuoc
-                     >> hoadonmoi.tienguixe >> hoadonmoi.tongtien >> hoadonmoi.dadongtien
-                     >> quoted(hoadonmoi.ngaydongtien))){
-                    break;
-                }
-                hoadonmoi.link = NULL;
-                ThemCuoiDanhSachHoaDon(canho->danhsachhoadon, KhoiTaoHoaDon(hoadonmoi));
-                HoaDonPtr hoadon = canho->danhsachhoadon;
-                while(hoadon->link != NULL){
-                    hoadon = hoadon->link;
-                }
-                hoadon->dadongtien = hoadonmoi.dadongtien;
-                hoadon->ngaydongtien = hoadonmoi.ngaydongtien;
-            }
+            ++muc;
         }
     } catch(const filesystem_error&){
-        GiaiPhongDanhSachCanHo(danhsachmoi);
         return false;
     }
 
-    if(!codulieu){
-        if(exists(THUMUCGOC + "/dakhoitao.txt")){
-            GiaiPhongDanhSachCanHo(danhsachcanho);
-            danhsachcanho = NULL;
-            return true;
-        }
-        return false;
-    }
-    GiaiPhongDanhSachCanHo(danhsachcanho);
     danhsachcanho = danhsachmoi;
     return true;
 }
