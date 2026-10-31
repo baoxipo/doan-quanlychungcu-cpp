@@ -6,7 +6,7 @@
 #include "canho.h"
 #include "hamphu.h"
 
-const string THUMUCGOC = "data";
+const string THUMUCGOC = "dulieuchungcu";
 
 void TaoThuMuc(string tenthumuc);
 bool KhoiTaoDuLieuVaoFile(CanHoPtr& danhsachcanho, string luachonmauhaykhong);

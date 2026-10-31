@@ -12,5 +12,8 @@
 #include "thongke.h"
 #include "hoadon.h"
 #include "saoluuvanapdulieu.h"
+#include "vebang.h"
+#include "banner.h"
+#include "thongtin.h"
 
 #endif

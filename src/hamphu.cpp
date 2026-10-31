@@ -1,4 +1,4 @@
-#include "lib/hamphu.h"
+#include "thuvien/hamphu.h"
 
 int NhapSo(string loinhac, int solanthu){
     for(int lanthu = 1; lanthu <= solanthu; lanthu++){
@@ -9,10 +9,10 @@ int NhapSo(string loinhac, int solanthu){
         if(ChuyenThanhSo(chuoi, so)){
             return so;
         }
-        cout << "(!) Vui long nhap so nguyen hop le (" 
+        cout << "[!] Vui long nhap so nguyen hop le (" 
              << lanthu << "/" << solanthu << ")" << endl;
     }
-    cout << "(!) Da nhap sai " << solanthu << " lan, quay lai menu" << endl;
+    cout << "[!] Da nhap sai " << solanthu << " lan, quay lai menu" << endl;
     return -1;
 }
 
@@ -24,16 +24,16 @@ string NhapChuoi(string loinhac, int solanthu){
         if(!s.empty()){
             return s;
         }
-        cout << "\t(!) Khong duoc de trong ("
+        cout << "\t[!] Khong duoc de trong ("
              << lanthu << "/" << solanthu << ")" << endl;
     }
-    cout << "(!) Da nhap sai 3 lan, quay lai menu" << endl;
+    cout << "[!] Da nhap sai 3 lan, quay lai menu" << endl;
     return "";
 }
 
 void DungChuongTrinh(){
     cout << "\nNhan phim bat ky de tiep tuc ...";
-    getch();
+    XoaBoDem();
 }
 
 void XoaManHinh(){
@@ -74,7 +74,7 @@ void KhoiTaoDuLieuMau(CanHoPtr& danhsachcanho){
             ThemCanHoMau(danhsachcanho, ten, tang);
         }
     }
-    // 8 gia đình đang thuê ở mỗi phòng khác nhau 
+    // 8 cư dân thuê ở mỗi phòng khác nhau 
     ThemCuDanMau(danhsachcanho, "A101", "Nguyen Van An",    "079201000001", "0901000001", true);
     ThemCuDanMau(danhsachcanho, "A101", "Tran Thi Binh",    "079201000002", "0901000002", false);
     ThemCuDanMau(danhsachcanho, "A101", "Nguyen Minh Khoa", "079201000003", "0901000003", false);
@@ -117,13 +117,16 @@ void KhoiTaoDanhSachHoaDonChoPhongDangThue(CanHoPtr& danhsachcanho){
     }
 }
 
-string LayThoiGianHienTai(){
-    auto hientai = system_clock::now();
-    time_t t = chrono::system_clock::to_time_t(hientai);
-    tm* tg = localtime(&t);
-    ostringstream thoigianhientai;
-    thoigianhientai << put_time(tg, "%H:%M:%S %d/%m/%Y");
-    return thoigianhientai.str();
+// theo định dạng gio:phut:giay ngay/thang/nam
+string LayThoiGianHienTai() {
+    time_t baygio = time(0);
+    string ketquathoigian(19, ' ');
+    strftime(
+        &ketquathoigian[0], 
+        ketquathoigian.size() + 1, 
+        "%H:%M:%S %d/%m/%Y", 
+        localtime(&baygio));
+    return ketquathoigian;
 }
 
 int RandomSo(int a, int b){
@@ -134,40 +137,47 @@ int RandomSo(int a, int b){
 }
 
 int LayThangHienTai() {
-    auto hientai = system_clock::to_time_t(system_clock::now());
-    return localtime(&hientai)->tm_mon + 1;
+    time_t baygio = time(0);
+    auto thoigian = localtime(&baygio);
+    return thoigian->tm_mon + 1;
 }
 
 int LayNamHienTai() {
-    auto hientai = system_clock::to_time_t(system_clock::now());
-    return localtime(&hientai)->tm_year + 1900;
+    time_t baygio = time(0);
+    auto thoigian = localtime(&baygio);
+    return thoigian->tm_year + 1900;
 }
 
-bool ChuyenThanhSo(string chuoi, int& so){
+bool ChuyenThanhSo(string chuoi, int& so) {
     try {
-        size_t pos;
-        int n = stoi(chuoi, &pos);
-        if(pos != chuoi.size() || chuoi.empty()){
+        size_t sokytudoc;
+        int sochuyentuchuoi = stoi(chuoi, &sokytudoc);
+        if (sokytudoc != chuoi.size()) {
             return false;
         }
-        for(size_t i = 0; i < chuoi.size(); i++){
-            if(i == 0 && (chuoi[i] == '-' || chuoi[i] == '+')){
-                if(chuoi.size() == 1){
-                    return false;
-                }
-                continue;
-            }
-            if(chuoi[i] < '0' || chuoi[i] > '9'){
-                return false;
-            }
-        }
-        so = n;
+        so = sochuyentuchuoi;
         return true;
-    } catch(...){
+    }
+    catch (...) {
         return false;
     }
 }
 
 void XoaBoDem(){
-    cin.ignore(1000, '\n');
+    cin.ignore(100, '\n');
+}
+
+string ChuyenTienThanhChuoi(long long tien){
+    string chuoitien = to_string(tien);
+    int dodaichuoitien = chuoitien.length();
+    string dinhdangtien = "";
+    int dem = 0;
+    for(int i = 0; i < dodaichuoitien; i++){
+        dinhdangtien += chuoitien[i];
+        int sochusoconlai = dodaichuoitien - i - 1;
+        if(sochusoconlai > 0 && sochusoconlai % 3 == 0){
+            dinhdangtien += ".";
+        }
+    }
+    return dinhdangtien;
 }

@@ -22,5 +22,6 @@ int LayThangHienTai();
 int LayNamHienTai();
 int RandomSo(int a, int b);
 bool ChuyenThanhSo(string chuoi, int& so);
+string ChuyenTienThanhChuoi(long long tien);
 
 #endif

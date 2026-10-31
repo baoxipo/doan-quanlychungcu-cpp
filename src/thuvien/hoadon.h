@@ -38,5 +38,6 @@ void ThemCuoiDanhSachHoaDon(HoaDonPtr& danhsachhoadon, HoaDonPtr hoadonmoi);
 HoaDonPtr TimHoaDon(HoaDonPtr& danhsachhoadon, int thang, int nam);
 void XuatMotHoaDon(HoaDonPtr hoadon);
 void XuatDanhSachHoaDon(HoaDonPtr danhsachhoadon);
+bool KiemTraDaDongTatCaHoaDon(HoaDonPtr danhsachhoadon);
 
 #endif

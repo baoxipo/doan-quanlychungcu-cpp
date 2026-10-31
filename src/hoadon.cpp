@@ -1,5 +1,6 @@
-#include "lib/hoadon.h"
-#include "lib/hamphu.h"
+#include "thuvien/hoadon.h"
+#include "thuvien/hamphu.h"
+#include "thuvien/vebang.h"
 
 bool KiemTraRongDanhSachHoaDon(HoaDonPtr& danhsachhoadon){
     return danhsachhoadon == NULL;
@@ -20,8 +21,8 @@ HoaDonPtr KhoiTaoHoaDon(HoaDon& hoadonmoi){
     p->tiennuoc = hoadonmoi.tiennuoc;
     p->tienguixe = hoadonmoi.tienguixe;
     p->tongtien = hoadonmoi.tongtien;
-    p->dadongtien = false;
-    p->ngaydongtien = "";
+    p->dadongtien = hoadonmoi.dadongtien;
+    p->ngaydongtien = hoadonmoi.ngaydongtien;
     p->link = NULL;
     return p;
 }
@@ -114,38 +115,66 @@ void ThemCuoiDanhSachHoaDon(HoaDonPtr& danhsachhoadon, HoaDonPtr hoadonmoi){
         danhsachhoadon = hoadonmoi;
         return;
     }
-    HoaDonPtr p = danhsachhoadon;
-    while(p->link != NULL){
-        p = p->link;
+    HoaDonPtr hoadon = danhsachhoadon;
+    while(hoadon->link != NULL){
+        hoadon = hoadon->link;
     }
-    p->link = hoadonmoi;
+    hoadon->link = hoadonmoi;
 }
 
 HoaDonPtr TimHoaDon(HoaDonPtr& danhsachhoadon, int thang, int nam){
-    HoaDonPtr p = danhsachhoadon;
-    while(p != NULL){
-        if(p->thang == thang && p->nam == nam){
-            return p;
+    HoaDonPtr hoadon = danhsachhoadon;
+    while(hoadon != NULL){
+        if(hoadon->thang == thang && hoadon->nam == nam){
+            return hoadon;
         }
-        p = p->link;
+        hoadon = hoadon->link;
     }
     return NULL;
 }
 
-void XuatMotHoaDon(HoaDonPtr hoadon){
-    cout << "   Hoa don thang " << hoadon->thang << " nam " << hoadon->nam << endl;
-    cout << "     - Quan ly : " << hoadon->tienquanly << " (VND)"<< endl;
-    cout << "     - Dien    : " << hoadon->sokwhdien << " kWh -> " 
-                                << hoadon->tiendien << " (VND)" << endl;
-    cout << "     - Nuoc    : " << hoadon->somkhoinuoc << " m³ -> " 
-                                << hoadon->tiennuoc << " (VND)" << endl;
-    cout << "     - Gui xe  : " << hoadon->tienguixe << " (VND)" << endl;
-    cout << "   TONG : " << fixed << setprecision(0) << hoadon->tongtien << " (VND)" << endl;
+string LayTrangThaiHoaDon(HoaDonPtr hoadon){
     if(hoadon->dadongtien){
-        cout << "     -> DA DONG luc " << hoadon->ngaydongtien << endl;
-    } else {
-        cout << "     -> CHUA DONG" << endl;
+        return "Da dong " + hoadon->ngaydongtien;
     }
+    return "Chua dong";
+}
+
+void InDuongKeHoaDon(){
+    cout << "+---------+----------------+------------+------------+----------------+----------------+----------------------------------+" << endl;
+}
+
+void InTieuDeHoaDon(){
+    cout << "| " 
+         << CanLePhai("Thang", 7) << " | "
+         // << CanLePhaiHoaDon("Nam", 6) << " | "
+         << CanLePhai("Quan ly (VND)", 14) << " | "
+         << CanLePhai("Dien (kWh)", 10) << " | "
+         << CanLePhai("Nuoc (m3)", 10) << " | "
+         << CanLePhai("Gui xe (VND)", 14) << " | "
+         << CanLePhai("Tong (VND)", 14) << " | "
+         << CanLePhai("Trang thai", 32) << " |" << endl;
+}
+
+void XuatDongHoaDon(HoaDonPtr hoadon){
+    string dien = to_string(hoadon->sokwhdien);
+    string nuoc = to_string(hoadon->somkhoinuoc);
+    cout << "| " << CanLePhai(to_string(hoadon->thang) + "/" + to_string(hoadon->nam), 7) << " | "
+         // << CanLePhaiHoaDon(to_string(hoadon->nam), 6) << " | "
+         << CanLePhai(ChuyenTienThanhChuoi(hoadon->tienquanly), 14) << " | "
+         << CanLePhai(dien, 10) << " | "
+         << CanLePhai(nuoc, 10) << " | "
+         << CanLePhai(ChuyenTienThanhChuoi(hoadon->tienguixe), 14) << " | "
+         << CanLePhai(ChuyenTienThanhChuoi(hoadon->tongtien), 14) << " | "
+         << CanLePhai(LayTrangThaiHoaDon(hoadon), 32) << " |" << endl;
+}
+
+void XuatMotHoaDon(HoaDonPtr hoadon){
+    InDuongKeHoaDon();
+    InTieuDeHoaDon();
+    InDuongKeHoaDon();
+    XuatDongHoaDon(hoadon);
+    InDuongKeHoaDon();
 }
 
 void XuatDanhSachHoaDon(HoaDonPtr danhsachhoadon){
@@ -153,9 +182,27 @@ void XuatDanhSachHoaDon(HoaDonPtr danhsachhoadon){
         cout << "   (chua co hoa don)" << endl;
         return;
     }
-    HoaDonPtr p = danhsachhoadon;
-    while(p != NULL){
-        XuatMotHoaDon(p);
-        p = p->link;
+    InDuongKeHoaDon();
+    InTieuDeHoaDon();
+    InDuongKeHoaDon();
+    HoaDonPtr hoadon = danhsachhoadon;
+    while(hoadon != NULL){
+        XuatDongHoaDon(hoadon);
+        hoadon = hoadon->link;
     }
+    InDuongKeHoaDon();
+}
+
+bool KiemTraDaDongTatCaHoaDon(HoaDonPtr danhsachhoadon){
+    if(KiemTraRongDanhSachHoaDon(danhsachhoadon)){
+        return false;
+    }
+    HoaDonPtr hoadon = danhsachhoadon;
+    while(hoadon != NULL){
+        if(!hoadon->dadongtien){
+            return false;
+        }
+        hoadon = hoadon->link;
+    }
+    return true;
 }

@@ -9,11 +9,7 @@
 #include "hamphu.h"
 
 void LuuYChonDuLieuMau();
-void Banner();
 void MenuQuanLyChungCu();
-void BannerDoAnTinHoc();
-void BannerTamBiet();
-void MoTaNghiepVu();
 
 void XuLyMenu1(CanHoPtr& danhsachcanho);
 void XuLyMenu2(CanHoPtr& danhsachcanho);
@@ -25,6 +21,5 @@ void XuLyMenu7(CanHoPtr& danhsachcanho);
 void XuLyMenu8(CanHoPtr& danhsachcanho);
 void XuLyMenu9(CanHoPtr& danhsachcanho);
 void XuLyMenu10(CanHoPtr& danhsachcanho);
-void XuLyMenu11();
 
 #endif

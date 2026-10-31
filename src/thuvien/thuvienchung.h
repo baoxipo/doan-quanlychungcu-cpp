@@ -1,18 +1,14 @@
 // Thư viện dùng chung cho mọi file header
 
+// dùng dòng này để tránh báo lỗi mấy hàm thời gian 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
-#include <iomanip>
-#include <vector>
-#include <conio.h>
-#include <chrono>
 #include <random>
 #include <sstream>
 #include <fstream>
-#include <set>
-#include <map>
 #include <filesystem>
 
 using namespace std;
 using namespace filesystem;
-using namespace chrono;

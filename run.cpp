@@ -19,7 +19,10 @@ int main(){
                                 "src\\main.cpp "
                                 "src\\saoluuvanapdulieu.cpp "
                                 "src\\thongke.cpp "
-                                "src\\menuvahamxuly.cpp";
+                                "src\\menuvahamxuly.cpp "
+                                "src\\banner.cpp "
+                                "src\\vebang.cpp "
+                                "src\\thongtin.cpp ";
     string lenhbiendich = "g++ " 
                         + cacfilecanbiendich 
                         + " -o " 
