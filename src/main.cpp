@@ -84,7 +84,6 @@ int main() {
         }
         else{
             cout << "[!] Lua chon khong hop le !" << endl;
-            continue;
         }
         // lưu lai dữ liệu sau mỗi lần chọn, tự động sao lưu 
         if(luachon != 0 && !LuuDuLieu(danhsachcanho)){

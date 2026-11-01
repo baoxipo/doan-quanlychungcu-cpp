@@ -1,4 +1,5 @@
 #include "thuvien/saoluuvanapdulieu.h"
+#include "thuvien/cudan.h"
 
 void TaoThuMuc(string tenthumuc){
     create_directories(tenthumuc);
@@ -145,8 +146,8 @@ bool NapDuLieu(CanHoPtr& danhsachcanho) {
         canhomoi.danhsachcudan = NULL;
         canhomoi.danhsachhoadon = NULL;
         canhomoi.link = NULL;
-        CanHoPtr canho = KhoiTaoCanHo(canhomoi);
-        ThemCuoiDanhSachCanHo(danhsachmoi, canho);
+        CanHoPtr canhoptr = KhoiTaoCanHo(canhomoi);
+        ThemCuoiDanhSachCanHo(danhsachmoi, canhoptr);
 
         // cudan.txt
         ifstream filecudan(thumuccanho + "/cudan.txt");
@@ -161,7 +162,8 @@ bool NapDuLieu(CanHoPtr& danhsachcanho) {
             filecudan >> cudanmoi.lachuho;
             filecudan.ignore();
             cudanmoi.link = NULL;
-            ThemCuoiDanhSachCuDan(canho->danhsachcudan, KhoiTaoCuDan(cudanmoi));
+            CuDanPtr cudanmoiptr = KhoiTaoCuDan(cudanmoi);
+            ThemCuoiDanhSachCuDan(canhoptr->danhsachcudan, cudanmoiptr);
         }
 
         // hoadon.txt
@@ -184,8 +186,8 @@ bool NapDuLieu(CanHoPtr& danhsachcanho) {
             filehoadon.ignore();
             getline(filehoadon, hoadonmoi.ngaydongtien);
             hoadonmoi.link = NULL;
-            HoaDonPtr taohoadonmoi = KhoiTaoHoaDon(hoadonmoi);
-            ThemCuoiDanhSachHoaDon(canho->danhsachhoadon, taohoadonmoi);
+            HoaDonPtr hoadonmoiptr = KhoiTaoHoaDon(hoadonmoi);
+            ThemCuoiDanhSachHoaDon(canhoptr->danhsachhoadon, hoadonmoiptr);
         }
     }
     danhsachcanho = danhsachmoi;

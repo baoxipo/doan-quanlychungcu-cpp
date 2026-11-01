@@ -5,14 +5,14 @@ string thongtindoan = R"(
 +----------------------------------------------------------------------------------+
 |                          CHUONG TRINH QUAN LY CHUNG CU                           |
 +----------------------------------------------------------------------------------+
-| Thong tin                                                                        |
+| Thong Tin                                                                        |
 |                                                                                  |
 | Giao vien huong dan: Nguyen Truong An                                            |
 | Sinh vien thuc hien: Tran Minh Gia Bao                                           |
 | Ngon ngu: C++ (Console)                                                          |
 | De tai: Xay dung chuong trinh quan ly chung cu C++                               |
 +----------------------------------------------------------------------------------+
-| Mo ta nghiep vu                                                                  |
+| Mo Ta Nghiep Vu                                                                  |
 |                                                                                  |
 | - Chuong trinh dung de quan ly can ho, cu dan va hoa don trong chung cu          |
 | - Moi can ho co ten, tang, trang thai, danh sach cu dan va danh sach hoa don     |

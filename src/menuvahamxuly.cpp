@@ -46,7 +46,8 @@ void XuLyMenu1(CanHoPtr& danhsachcanho){
         if(TimTheoTenCanHo(danhsachcanho, canhomoi.tencanho) != NULL){
             cout << "\t[!] Ten can ho da ton tai !" << endl;
         } else {
-            ThemCuoiDanhSachCanHo(danhsachcanho, KhoiTaoCanHo(canhomoi));
+            CanHoPtr canhomoiptr = KhoiTaoCanHo(canhomoi);
+            ThemCuoiDanhSachCanHo(danhsachcanho, canhomoiptr);
             cout << "\t[*] Them can ho thanh cong" << endl;
         }
     } else if(luachon == 2){
@@ -236,7 +237,6 @@ void XuLyMenu8(CanHoPtr& danhsachcanho){
     cout << "[03] Xem tat ca hoa don" << endl;
     cout << "[04] Quay lai" << endl;
     int luachon = NhapSo("[?] Chon: ", 1);
-
     if(luachon == 1){
         string ten = NhapChuoi("\t[?] Nhap ten can ho: ");
         if(ten.empty()){
@@ -247,7 +247,6 @@ void XuLyMenu8(CanHoPtr& danhsachcanho){
             cout << "\t[!] Khong tim thay can ho" << endl;
             return;
         }
-
         int thang = LayThangHienTai();
         int nam = LayNamHienTai();
         HoaDonPtr hoadon = TimHoaDon(canho->danhsachhoadon, thang, nam);
@@ -257,8 +256,6 @@ void XuLyMenu8(CanHoPtr& danhsachcanho){
             XuatMotHoaDon(hoadon);
             return;
         }
-
-        // Chua co hoa don thang hien tai
         if(TraVeDanhSachCuDan(canho) == NULL){
             cout << "\t[!] Khong the tao hoa don vi can ho khong co cu dan" << endl;
             return;
@@ -276,10 +273,11 @@ void XuLyMenu8(CanHoPtr& danhsachcanho){
         }
         if(luachontao == 1){
             HoaDon hoadonmoi = TaoHoaDonNgauNhien(thang, nam);
-            ThemCuoiDanhSachHoaDon(canho->danhsachhoadon, KhoiTaoHoaDon(hoadonmoi));
+            HoaDonPtr hoadonmoiptr = KhoiTaoHoaDon(hoadonmoi);
+            ThemCuoiDanhSachHoaDon(canho->danhsachhoadon, hoadonmoiptr);
             cout << "\t[*] Da tao hoa don thang " << thang
                  << " nam " << nam << " cho phong " << canho->tencanho << endl;
-            XuatDanhSachHoaDon(canho->danhsachhoadon);
+            XuatMotHoaDon(hoadonmoiptr);
         } else if(luachontao == 2){
             cout << "\t[*] Khong tao hoa don" << endl;
         } else {
@@ -341,11 +339,14 @@ void XuLyMenu9(CanHoPtr& danhsachcanho){
             return;
         }
         if(KiemTraDaDongTatCaHoaDon(canho->danhsachhoadon)){
-            cout << "\t[!] Tat ca hoa don da duoc thanh toan" << endl;
+            cout << "\t[!] Tat ca hoa don da duoc thanh toan truoc do" << endl;
             XuatDanhSachHoaDon(canho->danhsachhoadon);
             return;
         }
         XuatDanhSachHoaDon(canho->danhsachhoadon);
+        if(KiemTraRongDanhSachHoaDon(canho->danhsachhoadon)){
+            return;
+        }
         int thang = NhapSo("\t[?] Nhap thang muon thanh toan: ");
         if(thang == -1){
             return;
@@ -382,7 +383,7 @@ void XuLyMenu9(CanHoPtr& danhsachcanho){
             cout << "\t[!] Khong tim thay can ho" << endl;
             return;
         }
-        if(canho->danhsachhoadon == NULL){
+        if(KiemTraRongDanhSachHoaDon(canho->danhsachhoadon)){
             cout << "\t[!] Khong tim thay danh sach hoa don" << endl;
             return;
         }
@@ -399,7 +400,7 @@ void XuLyMenu9(CanHoPtr& danhsachcanho){
             hoadon = hoadon->link;
         }
         if(KiemTraDaDongTatCaHoaDon(canho->danhsachhoadon)){
-            cout << "\t[!] Tat ca hoa don da duoc thanh toan" << endl;
+            cout << "\t[!] Tat ca hoa don da duoc thanh toan truoc do" << endl;
         }
         XuatDanhSachHoaDon(canho->danhsachhoadon);
     } else if(luachon == 3){

@@ -167,7 +167,7 @@ void XoaBoDem(){
     cin.ignore(100, '\n');
 }
 
-string ChuyenTienThanhChuoi(long long tien){
+string ChuyenTienThanhChuoi(int tien){
     string chuoitien = to_string(tien);
     int dodaichuoitien = chuoitien.length();
     string dinhdangtien = "";
