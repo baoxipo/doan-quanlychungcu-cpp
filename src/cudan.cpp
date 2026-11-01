@@ -32,7 +32,7 @@ CuDan NhapCuDan(CanHoPtr danhsachcanho){
             break;
         }
         if(KiemTraTrungTatCaCCCD(danhsachcanho, cudanmoi.cccd)){
-            cout << "\t\t[!] So CCCD nay da trung voi nguoi khac. Vui lòng nhap lai !" << endl;
+            cout << "\t\t[!] So CCCD nay da trung voi nguoi khac. Vui long nhap lai !" << endl;
         } else break;
     } while(true);
     do {
@@ -99,8 +99,8 @@ void NhapDanhSachCuDan(CanHoPtr danhsachcanho, CuDanPtr &danhsachcudan, int solu
             }
             cudanmoi.lachuho = false;
         }
-        CuDanPtr khoitaocudanmoi = KhoiTaoCuDan(cudanmoi);
-        ThemCuoiDanhSachCuDan(danhsachcudan, khoitaocudanmoi);
+        CuDanPtr cudanmoiptr = KhoiTaoCuDan(cudanmoi);
+        ThemCuoiDanhSachCuDan(danhsachcudan, cudanmoiptr);
         dadhem++;
     }
 }

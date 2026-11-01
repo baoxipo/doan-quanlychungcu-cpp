@@ -98,14 +98,16 @@ void KhoiTaoDanhSachHoaDonNgauNhien(HoaDonPtr& danhsachhoadon){
     int namtruoc = namnay - 1;
     int thang = thanghientai + 1;
     while(thang <= 12){
-        HoaDon hoadon = TaoHoaDonNgauNhien(thang, namtruoc);
-        ThemCuoiDanhSachHoaDon(danhsachhoadon, KhoiTaoHoaDon(hoadon));
+        HoaDon hoadonmoi = TaoHoaDonNgauNhien(thang, namtruoc);
+        HoaDonPtr hoadonmoiptr = KhoiTaoHoaDon(hoadonmoi);
+        ThemCuoiDanhSachHoaDon(danhsachhoadon, hoadonmoiptr);
         thang++;
     }
     thang = 1;
     while(thang <= thanghientai){
-        HoaDon hoadon = TaoHoaDonNgauNhien(thang, namnay);
-        ThemCuoiDanhSachHoaDon(danhsachhoadon, KhoiTaoHoaDon(hoadon));
+        HoaDon hoadonmoi = TaoHoaDonNgauNhien(thang, namnay);
+        HoaDonPtr hoadonmoiptr = KhoiTaoHoaDon(hoadonmoi);
+        ThemCuoiDanhSachHoaDon(danhsachhoadon, hoadonmoiptr);
         thang++;
     }
 }
